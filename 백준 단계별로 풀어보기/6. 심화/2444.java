@@ -4,25 +4,25 @@ import java.util.*;
 
 class Main{
     public static void main(String[] args) throws IOException{
-        Scanner sc = new Scanner(System.in);
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        int N = sc.nextInt();//5
-        for(int i=0; i<N; i++){
-            for(int j=N-1; j>i; j--)
-                bw.write(" ");
-            for(int j=1; j<=1+2*i; j++)
-                bw.write("*");
+
+        int N = Integer.parseInt(br.readLine());
+
+        for(int i=1; i<=N; i++){
+            bw.write(" ".repeat(N-i));
+            bw.write("*".repeat(2*i-1));
             bw.newLine();
         }
-        for(int i=0; i<N-1; i++){
-            for(int j=0; j<i+1; j++)
-                bw.write(" ");
-            for(int j=2*N-3; j>2*i; j--)
-                bw.write("*");
+
+        for(int i=N-1; i>=1; i--){
+            bw.write(" ".repeat(N-i));
+            bw.write("*".repeat(2*i-1));
             bw.newLine();
         }
+
         bw.flush();
         bw.close();
-        sc.close();
+        br.close();
     }
 }
