@@ -24,7 +24,7 @@ class Main {
             if(value>=1 && value<=9)
                 sb.append(String.valueOf(value));
             else if(value>=10)
-                sb.append(String.valueOf((char)(value-10+'A')));
+                sb.append((char)(value-10+'A'));
             else
                 sb.append("0");
             number%=multiplier;
