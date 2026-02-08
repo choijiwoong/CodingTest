@@ -9,6 +9,11 @@ class Main {
         int number = Integer.parseInt(st.nextToken());
         int std = Integer.parseInt(st.nextToken());
 
+        if (number == 0) {
+            System.out.println("0");
+            return;
+        }
+
         StringBuilder sb = new StringBuilder();
         while(number>0){
             int remainer = number%std;
@@ -19,7 +24,7 @@ class Main {
             number/=std;
         }
 
-        System.out.println(sb.toString());
+        System.out.println(sb.reverse().toString());
         br.close();
     }
 }
