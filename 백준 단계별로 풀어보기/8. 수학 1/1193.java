@@ -13,19 +13,11 @@ class Main {
 
         int up, down;
         if(level%2!=0){
-            up = 1;
-            down = level;
-            for(int i=0; i<offset; i++){
-                up++;
-                down--;
-            }
+            up = 1 + offset;
+            down = level - offset;
         } else{
-            up = level;
-            down = 1;
-            for(int i=0; i<offset; i++){
-                up--;
-                down++;
-            }
+            up = level - offset;
+            down = 1 + offset;
         }
 
         System.out.println(up+"/"+down);
