@@ -6,12 +6,8 @@ class Main {
     public static void main(String[] args){
         Scanner sc = new Scanner(System.in);
         int n= sc.nextInt();
-        int prev = 3;
-
-        while(--n > 0)
-            prev+=prev-1;
-
-        System.out.println(prev*prev);
+        int side = (1<<n) +1;
+        System.out.println(side*side);
         sc.close();
     }
 }
