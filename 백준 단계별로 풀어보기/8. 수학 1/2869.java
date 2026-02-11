@@ -10,15 +10,12 @@ class Main {
         int b = Integer.parseInt(st.nextToken());
         int v = Integer.parseInt(st.nextToken());
 
-        int high = 0, day = 1;
 
-        while(true){
-            high+=a;
-            if(high>=v)
-                break;
-            high-=b;
-            day++;
-        }
+        int day;
+        if (a==v)//안하면 아래 division by zero뜸.
+            day=1;
+        else
+            day = ((v-a)/(a-b)<1?1:(v-a)/(a-b) )+1;
 
         System.out.println(day);
         br.close();
