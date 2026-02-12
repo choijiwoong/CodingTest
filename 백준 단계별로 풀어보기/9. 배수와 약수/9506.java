@@ -14,7 +14,7 @@ class Main {
 
             for(int i=1; i<input; i++){
                 if(input%i==0){
-                    sb.append(i+" + ");
+                    sb.append(i).append(" + ");
                     sum+=i;
                 }
             }
