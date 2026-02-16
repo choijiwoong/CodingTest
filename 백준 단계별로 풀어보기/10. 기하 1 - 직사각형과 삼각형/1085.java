@@ -17,7 +17,7 @@ class Main {
             width = x;
 
         if(h/2-y < 0)
-            height = y-h;
+            height = h-y;
         else
             height = y;
 
