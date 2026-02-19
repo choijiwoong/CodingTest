@@ -31,17 +31,17 @@ class Main {
                     + get_distance_multiple(xs[i], ys[i], point3_x, point3_y);
             // 만약 현재 i번째가 직각점(피타고라스 법칙에 해당)이라면, 다른 두 점의 중점을 기준으로 직각점을 대칭.
             if(sum_right_sides == get_distance_multiple(point2_x, point2_y, point3_x, point3_y)){
-                int mid_x = (point2_x+point3_x)/2;
-                int mid_y = (point2_y+point3_y)/2;
+                double mid_x = (point2_x+point3_x)/2.0;
+                double mid_y = (point2_y+point3_y)/2.0;
                 int result_x, result_y;
                 if(mid_x<xs[i])
-                    result_x = mid_x - (xs[i]-mid_x);
+                    result_x = (int)(mid_x - (xs[i]-mid_x));
                 else
-                    result_x = mid_x + (mid_x-xs[i]);
+                    result_x = (int)(mid_x + (mid_x-xs[i]));
                 if(mid_y<ys[i])
-                    result_y = mid_y - (ys[i]-mid_y);
+                    result_y = (int)(mid_y - (ys[i]-mid_y));
                 else
-                    result_y = mid_y + (mid_y-ys[i]);
+                    result_y = (int)(mid_y + (mid_y-ys[i]));
                 StringBuilder sb = new StringBuilder();
                 sb.append(result_x);
                 sb.append(" ");
