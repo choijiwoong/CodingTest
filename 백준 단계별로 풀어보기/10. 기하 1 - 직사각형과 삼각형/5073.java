@@ -3,6 +3,7 @@ import java.util.*;
 import java.io.*;
 
 class Main{
+    static final int MAX = 3;
     public static void main(String args[]) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         String line;
@@ -12,34 +13,20 @@ class Main{
             if(line.equals("0 0 0"))
                 break;
             StringTokenizer st = new StringTokenizer(line);
-            int a = Integer.parseInt(st.nextToken());
-            int b = Integer.parseInt(st.nextToken());
-            int c = Integer.parseInt(st.nextToken());
-            int max = a>b?(c>a?c:a):(c>b?c:b);
-            boolean is_valid = false;
-            switch(max){
-                case a:
-                    if(a==b+c)
-                        is_valid = true;
-                    break;
-                case b:
-                    if(b==a+c)
-                        is_valid = true;
-                    break;
-                case c:
-                    if(c==a+b)
-                        is_valid = true;
-                    break;
-            }
-            if(!is_valid){
+            int[] list = new int[MAX];
+            for(int i=0; i<MAX; i++)
+                list[i] = Integer.parseInt(st.nextToken());
+            Arrays.sort(list);
+
+            if(list[2]>=list[1]+list[0])
                 message = "Invalid";
-            }else if(a==b && b==c){
+            else if(list[0]==list[1] && list[1]==list[2])
                 message = "Equilateral";
-            } else if(a!=b && a!=c && b!=c){
+            else if(list[0]!=list[1] && list[1]!=list[2])
                 message = "Scalene";
-            } else{
+            else
                 message = "Isosceles";
-            }
+
             System.out.println(message);
         }
         br.close();
