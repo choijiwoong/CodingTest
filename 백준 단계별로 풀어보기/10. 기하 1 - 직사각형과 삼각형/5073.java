@@ -29,6 +29,7 @@ class Main{
 
             System.out.println(message);
         }
+// 이 번호 맞나? 여튼 삼각형 최대 조건이려면 긴변 =두변 합+1이어야할거임. 
         br.close();
     }
 }
