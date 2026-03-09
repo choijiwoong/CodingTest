@@ -4,14 +4,25 @@ import java.io.*;
 
 class Main {
     public static int get_prev_constructor(int num){
-        int result = num;
-        for(char c : String.valueOf(num).toCharArray())
-            result-=c-'0';
-        return result;
         /*
+
             정의를 다시 읽어봐라. 단순 자릿수 뺼셈이 아니라 self + self.split.sum() = next 인 구조다. 즉
             num보다 작은 수들 중 n+n.split.sum()이 num과 같은 수를 찾으면 된다.
+
+            쉽게 생각하면 일단 0이 아닌 이상(조건에 N은 1이상), 생성자는 num보다 작다.
+            1~num-1을 전부 반복하며 테스트 하는 방법이 있다.
+            하지만 생성자는 특정 규칙성이 있을 것이라고 판단, 우선 위의 방식대로 구현하고
+            생성자를 출력하여 규칙성을 찾아보자.
         */
+        for(int i=1; i<num-1; i++){
+            int result = i;
+            int var;
+            for(var = i; var>0; var/=10)
+                result += var%10;
+            if(result == num)
+                return i;
+        }
+        return 0;
     }
 
     public static void main(String[] args) throws IOException{
@@ -31,13 +42,7 @@ class Main {
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         int input = Integer.parseInt(br.readLine());
 
-        int prev_num = input;
-        while(input>0){
-            prev_num = input;
-            input = get_prev_constructor(input);
-        }
-
-        bw.write(String.valueOf(prev_num));
+        bw.write(String.valueOf(get_prev_constructor(input)));
         bw.flush();
         bw.close();
         br.close();
