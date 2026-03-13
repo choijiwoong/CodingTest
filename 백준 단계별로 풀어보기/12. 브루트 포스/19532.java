@@ -35,6 +35,8 @@ class Main {
 
             수기로 작성해보니 수많은 모든 나머지 과정에서 분모가 0이 되는 경우를 고려하기 어렵다.
             brute force하자. 범위 1800이니
+
+본가라서.. brute하고 왜 연립하면 안돠는지도 정리하자.. 내일은 2문제 풀기
         */
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
