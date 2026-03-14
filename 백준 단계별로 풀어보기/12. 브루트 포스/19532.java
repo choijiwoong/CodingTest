@@ -30,36 +30,37 @@ class Main {
             y = 0
 
             예제입력 2에서 오류가 나는데, 검토 결과 접근법은 이상이 없다.
-            정수형 처리일지라도 처리 과정에서 실수가 필요할 수 있으니 double으로 전부 변경하자.
-            그러니까 -2.73, 0.69나온다. 우선 계산 과정에서 double을 도입한 건 좋아보이지만 해가 근사치도 나오지 않는다.
+            정수형 처리일지라도 처리 과정에서 실수가 필요할 수 있으니 int으로 전부 변경하자.
+            그러니까 -2.73, 0.69나온다. 우선 계산 과정에서 int을 도입한 건 좋아보이지만 해가 근사치도 나오지 않는다.
 
             수기로 작성해보니 수많은 모든 나머지 과정에서 분모가 0이 되는 경우를 고려하기 어렵다.
             brute force하자. 범위 1800이니
+
+            이중 반복문에서는 break 범위도 조심하기.
         */
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         StringTokenizer st = new StringTokenizer(br.readLine());
-        double a = Double.parseDouble(st.nextToken());
-        double b = Double.parseDouble(st.nextToken());
-        double c = Double.parseDouble(st.nextToken());
-        double d = Double.parseDouble(st.nextToken());
-        double e = Double.parseDouble(st.nextToken());
-        double f = Double.parseDouble(st.nextToken());
+        int a = Integer.parseInt(st.nextToken());
+        int b = Integer.parseInt(st.nextToken());
+        int c = Integer.parseInt(st.nextToken());
+        int d = Integer.parseInt(st.nextToken());
+        int e = Integer.parseInt(st.nextToken());
+        int f = Integer.parseInt(st.nextToken());
 
-        double x,y;
-        if(a==0 && e==0){
-            x=f/d;
-            y=c/b;
-        } else if(a!=0 && c==0){
-            y=0;
-            x=f/d;
-        } else if(a==0 && c!=0){
-            x=0;
-            y=c/b;
-        } else{
-            x = (c-b*f)/(e*a-b*d);
-            y = (f-d*(c-b*f)/(e*a-b*d))/e;
+        int MAX=999;
+        int x,y;
+        boolean result = false;
+        for(x=-MAX; x<=MAX; x++){
+            for(y=-MAX; y<=MAX; y++){
+                result = (a*x+b*y==c) && (d*x+e*y==f);
+                if(result)
+                    break;
+            }
+            if(result)
+                break;
         }
+
         bw.write(String.valueOf(x));
         bw.write(" ");
         bw.write(String.valueOf(y));
