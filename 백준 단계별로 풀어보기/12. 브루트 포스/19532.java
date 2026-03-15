@@ -37,6 +37,14 @@ class Main {
             brute force하자. 범위 1800이니
 
             이중 반복문에서는 break 범위도 조심하기.
+
+            AI 피드백:
+            정답 변수를 별도의 변수로 빼고, 내부 iterator용 변수랑 분리하는 것이 좋다.
+            이유는 현재 조건에서는 유일해가 존재하지만 만약 그렇지 않은 경우 x와 y는 범위 초과 값인 1000이 되며,
+            uninitialized된 변수임으로 바로 문제상황을 알 수 있다. 즉, 예외나 에러 발생 시 조금이라도 인지할 수 있는가? 의 습관임.
+
+            그리고 이 문제를 bruteforce로 해야하는 이유가 내가 위의 다항식에서 생각한
+            zerodivision에러와 같은 경우가 굉장히 까다롭다.
         */
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
