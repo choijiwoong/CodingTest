@@ -49,7 +49,7 @@ class Main {
         int f = Integer.parseInt(st.nextToken());
 
         int MAX=999;
-        int x,y;
+        int x=-MAX,y=-MAX;
         boolean result = false;
         for(x=-MAX; x<=MAX; x++){
             for(y=-MAX; y<=MAX; y++){
