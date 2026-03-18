@@ -31,7 +31,10 @@ class Main {
             }
         }
 
-        print_board(board, N, M);
+        //print_board(board, N, M);
+        /*
+            gemini 피드백. 반복문 범위 체크 및, 왼쪽 위 색상 경우, 내부 비교 로직 검토 필요.
+        */
 
         for(int i=0; i<N-WINDOW_SIZE; i++){
             for(int j=0; j<M-WINDOW_SIZE; j++){
