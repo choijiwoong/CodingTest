@@ -3,61 +3,64 @@ import java.lang.*;
 import java.io.*;
 
 class Main {
-    public static void print_board(int[][] board, int N, int M){
-        for(int i=0; i<N; i++){
-            for(int j=0; j<M; j++){
-                System.out.print(board[i][j]);
+    public static int WIN_SIZE = 8;
+
+    public static int calc_window(int[][] arr, int a, int b){
+        // gemini 조언 따라 왼쪽 위 기준이 w일때 b일 때 2값 전부 계산
+        int std = arr[a][b];
+        int min1=0, min2=0;
+        for(int i=0; i<WIN_SIZE; i++){
+            for(int j=0; j<WIN_SIZE; j++){
+                // case 기준점이 W(1)일 때
+                if((i*WIN_SIZE+j)%2==0 && arr[a+i][b+j]!=1){
+                    min1++;
+                } else if((i*WIN_SIZE+j)%2==1 && arr[a+i][b+j]!=0){
+                    min1++;
+                }
+
+                // case 기준점이 B(0)일 때
+                if((i*WIN_SIZE+j)%2==0 && arr[a+i][b+j]!=0){
+                    min2++;
+                } else if((i*WIN_SIZE+j)%2==1 && arr[a+i][b+j]!=1){
+                    min2++;
+                }
+
+                // 현재 %2를 이용한 홀짝 로직 잘못됨. 예제입력 보면 B줄바꿈 B임.
             }
-            System.out.println();
         }
+        System.out.println(min1 +", "+ min2);
+        return min1>min2?min2:min1;
     }
 
     public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+
         StringTokenizer st = new StringTokenizer(br.readLine());
         int N = Integer.parseInt(st.nextToken());
         int M = Integer.parseInt(st.nextToken());
-        int WINDOW_SIZE = 8;
-        int min_count = 64;
-        int[][] board = new int[N][M];
 
+        int[][] arr = new int[N][M];
         for(int i=0; i<N; i++){
-            // StringTokenizer는 공백으로 구분된 문자열을 분해한다.
-            // 공백이 없는 문자열을 분해하려면 toCharArray()로 직접 접근해야함.
-            char[] line = br.readLine().toCharArray();
-            for(int j=0; j<line.length; j++){
-                board[i][j] = line[j]=='W'?1:0;
+            int j=0;
+            for(char c : br.readLine().toCharArray()){
+                if(c=='W')
+                    arr[i][j]=1;
+                else
+                    arr[i][j]=0;
+                j++;
             }
         }
 
-        //print_board(board, N, M);
-        /*
-            gemini 피드백. 반복문 범위 체크 및, 왼쪽 위 색상 경우, 내부 비교 로직 검토 필요.
-        */
-
-        for(int i=0; i<N-WINDOW_SIZE; i++){
-            for(int j=0; j<M-WINDOW_SIZE; j++){
-                //i,j의 칸을 기준으로 판단 기준으로
-                int count = 0;
-                int std = board[i][j];
-                //일단 아래에서 오류가 발생하는데 0,1 이면 합으로 한번에 계산도 가능할듯?
-                for(int ii=0; ii<WINDOW_SIZE; ii++){
-                    for(int jj=0; jj<WINDOW_SIZE; jj++){
-                        //
-                        if(((ii%2==0 && jj%2==0) || (ii%2==1 && jj%2==1)) && board[i+ii][j+jj]!=std){
-                            count++;
-                        } else if(board[i+ii][j+jj]==std){
-                            count++;
-                        }
-                    }
-                }
-                if(count<min_count){
-                    min_count=count;
-                }
+        int result = 100;
+        for(int i=0; i<N-WIN_SIZE+1; i++){
+            for(int j=0; j<M-WIN_SIZE+1; j++){
+                int min = calc_window(arr, i, j);
+                if(min<result)
+                    result = min;
             }
         }
-        bw.write(String.valueOf(min_count));
+        bw.write(String.valueOf(result));
         bw.flush();
         bw.close();
         br.close();
