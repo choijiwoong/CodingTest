@@ -12,23 +12,30 @@ class Main {
         for(int i=0; i<WIN_SIZE; i++){
             for(int j=0; j<WIN_SIZE; j++){
                 // case 기준점이 W(1)일 때
-                if((i*WIN_SIZE+j)%2==0 && arr[a+i][b+j]!=1){
+                //W: 00 02 04 06 11 13 15 17 20 22
+                //B: 01 03 05
+                //W는 i와 j 모두 짝수 혹은 홀수.
+                if( (i%2==j%2) && arr[a+i][b+j]==0 ){
+                    //W기준, W여야하는 위치가 B일 때
                     min1++;
-                } else if((i*WIN_SIZE+j)%2==1 && arr[a+i][b+j]!=0){
+                } else if( (i%2!=j%2) && arr[a+i][b+j]==1 ){
+                    //W기준, B여야하는 위치가 W일 때
                     min1++;
                 }
 
                 // case 기준점이 B(0)일 때
-                if((i*WIN_SIZE+j)%2==0 && arr[a+i][b+j]!=0){
+                // W: 01 03 05
+                // B: 00 02 04
+                // B는 i와 j 모두 짝수 혹은 홀수
+                if( (i%2==j%2) && arr[a+i][b+j]==1 ){
+                    //B기준, B여야하는 위치가 W일 때
                     min2++;
-                } else if((i*WIN_SIZE+j)%2==1 && arr[a+i][b+j]!=1){
+                } else if( (i%2!=j%2) && arr[a+i][b+j]==0 ){
+                    //B기준, W여야하는 위치가 B일 때
                     min2++;
                 }
-
-                // 현재 %2를 이용한 홀짝 로직 잘못됨. 예제입력 보면 B줄바꿈 B임.
             }
         }
-        System.out.println(min1 +", "+ min2);
         return min1>min2?min2:min1;
     }
 
