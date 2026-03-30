@@ -3,41 +3,109 @@ import java.lang.*;
 import java.io.*;
 
 class Main {
-    public static void counting_sort(int[] arr, int n){
+    public static int[] counting_sort(int[] arr, int n){
+        // 카운팅 정렬은 중복 값이 많은 경우 정렬의 효율화를 위해 숫자별 횟수(압축원리와 유사)를 이용해 중복값 간 불필요한 정렬을 최소화 하는 것이다.
+
+        // 1. 최댓값 계산
+        // 우선 특정 숫자가 몇번 나왔는지를 배열에 저장하기 위해서는 값에 해당하는 index를 사용한다.
+        // 그렇기에 최댓값을 먼저 파악하여, 해당 값+1 크기의 배열을 생성해주자(크기는 해당값으로 해도 좋으나 인덱스 고려해서 매번 -1해야하기에 편리성을 위함)
         int max = arr[0];
         for(int i=1; i<n; i++)
             if (max<arr[i])
                 max = arr[i];
 
-        int[] count = new int[max+1];// max값이기에 0~max
+        //2. 카운팅 배열 생성 및 횟수 초기화
+        int[] count = new int[max+1];
         for(int i=0; i<n; i++)
-            count[arr[i]]++;
+            count[arr[i]]++;// 해당하는 숫자의 인덱스 값을 +1
 
-        // 2 0 0 0 3 -> 2 2 2 2 5 식으로 누산하여, i값을 가지는 수가 최종적으로 들어갈 마지막 인덱스를 가리키게 함
+        // 3. 누적합 계산
+        // 결국 정렬을 위해서는 정렬 대상이 되는 숫자의 인덱스 정보가 필요한데
+        // 같은 수는 정렬이 불필요하고, 정렬 시 크기만큼 연속된 자리가 필요하다.
+        // 이를 계산하기 위해 횟수의 누적합 연산을 통해 범위를 결정한다.
+        // 1~최댓값 까지 다 훑으며 앞에서 부터 누적합 하기에 정렬이 여기에서 이루어지며(논리적으로)
+        // 정렬 대상이 되는 배열의 숫자가 들어가야하는 마지막 순번이 저장된다.
+
+        // 만약 배열이 0 2 2 0 이면 카운팅 배열은 우선 2 0 2가 된다(인덱스가 숫자, 값이 횟수)
+        // 누적합을 계산하면 2 2 4가 된다. 이 정보로 정렬을 이해해보면
+        // 0은 누적합 2니까 2번째 까지(index+1) 차지. 1은 누적한 2니까 2번째 까지 차지. 2는 누적합 4니까 4번째 까지
+        // 그 뒤 카운팅 정렬의 횟수를 고려해서 0 2개를 2번째까지, 1 0개를 2번째까지, 2 2개를 4번째까지.
+        // 이런식으로 채울 수 있다.
+
+        // 머리로 이해했다면 간단히 코드로 생각해보자.
+        // 걍 숫자 누적합 인덱스에 해당 숫자를 배치하고, 빈 부분은 배치된 수 복붙하면 됨.
         for(int i=1; i<=max; i++)
             count[i]+=count[i-1];
 
+        //4. 실제 배치
+        // 뒤에서 부터 채우는 이유는 혹시 같은 값이라고 판단해도 알고보니 다를 수 있기에(타입이 객체라던지)
+        // 최대한 기존의 순서를 유지하는 것
         int[] result = new int[n];
-        for(int i=n-1; i>=0; i--){
-            int value = arr[i];
+        for(int i=n-1; i>=0; i--){// 누적합이 해당 수가 끝나는 인덱스이기 때문에 계산의 편의를 위해 뒤에서부터.
+            int value = arr[i];// 배치해야하는 값
 
-            int position = count[value] - 1;
+            int position = count[value] - 1; // 누적합을 기준으로 해당 값이 들어가야하는 위치
 
-            output[position] = value;
+            result[position] = value; //실제 결과 배열에 값을 저장
 
+            // 만약 누적합 배열에서 같은 값이 나오게 되면 같은 position이 계산되기 때문에
+            // 이를 방지하고자 해당 값의 누적합배열을 -1하여 position만 바꾼다.
             count[value]--;
+            // 즉, 각자 숫자는 독립적으로 관리되돼, 중복값은 해당 독립적인 관리에서 처리가능하게 count--를 시킨다.
+
+            // 그 뒤 다른 수가 들어오게 되면 해당 누적합 위치는 어쩌다보니 앞선 값의 count[value]와 같아짐. 1씩 빼서. 그냥 참고용.
         }
-        return output;
+
+        return result;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException{
         /*
             지난번에 자바의 Arrays.sort()를 제외한 구현했던 quick, merge, heap 정렬이 전부 TLE가 발생했었다.
             문제 하단을 자세히 보니 카운팅 정렬을 사용하라고 힌트가 나와있으니 해당 알고리즘을 공부해보자.
 
             일반적인 비교 기반 정렬이 아닌, 같은 수는 아예 비교하지 않는 정렬로 중복이 많을 때 효율이 최상이 된다.
+            퀵 정렬은 중복값이 많으면 피벗 분할이 한쪽으로 쏠려서 O(N^2)이 되기 쉽다.
+            병렬 정렬은 new int[]시 메모리 관리 때문에 느려진다. ex) 최댓값 10억이면 new int[1...0]으로 MLE발생
 
+            3단계: 역순 배치 (하이라이트!)
+            이제 원본 [2, 0, 2, 1]을 뒤에서부터 하나씩 꺼내서 결과 배열에 꽂습니다.
+
+            첫 번째 숫자 1 (맨 뒤의 것):
+            누적 count[1]을 보니 2입니다. -> "너는 2등석(인덱스 1)에 앉아!"
+            결과: [ , 1, , ]
+            갱신: count[1]을 1로 줄입니다. (혹시 또 1이 나오면 그 앞자리에 앉히려고)
+
+            두 번째 숫자 2:
+            누적 count[2]를 보니 4입니다. -> "너는 4등석(인덱스 3)에 앉아!"
+            결과: [ , 1, , 2]
+            갱신: count[2]를 3으로 줄입니다.
+
+            세 번째 숫자 0:
+            누적 count[0]을 보니 1입니다. -> "너는 1등석(인덱스 0)에 앉아!"
+            결과: [0, 1, , 2]
+            갱신: count[0]을 0으로 줄입니다.
+
+            네 번째 숫자 2 (마지막):
+            누적 count[2]를 보니 아까 줄여놔서 3입니다. -> "너는 3등석(인덱스 2)에 앉아!"
+            결과: [0, 1, 2, 2] (완성!)
+
+            * 누적합: "내가 들어갈 구역의 오른쪽 끝 경계선"을 긋는 작업.
+            * 역순 배치: "경계선에 한 명 앉히고, 경계선을 왼쪽으로 한 칸 당기기(--)"를 반복하는 작업.
         */
-
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        int n = Integer.parseInt(br.readLine());
+        int[] arr = new int[n];
+        for(int i=0; i<n; i++)
+            arr[i] = Integer.parseInt(br.readLine());
+        int[] result = counting_sort(arr, n);
+        for(int i=0; i<n; i++){
+            bw.write(String.valueOf(result[i]));
+            bw.newLine();
+        }
+        bw.flush();
+        bw.close();
+        br.close();
     }
 }
