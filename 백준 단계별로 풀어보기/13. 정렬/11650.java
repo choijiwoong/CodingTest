@@ -10,7 +10,8 @@ class Main {
         int n = Integer.parseInt(br.readLine());
         int[] xs = new int[n];
         int[] ys = new int[n];
-        int[] idxs = new int[n];
+        //Arrays.sort()의 comparator에는 객체타입(원시타임x)만 받을 수 있다.
+        Integer[] idxs = new Integer[n];
 
         for(int i=0; i<n; i++){
             StringTokenizer st = new StringTokenizer(br.readLine());
