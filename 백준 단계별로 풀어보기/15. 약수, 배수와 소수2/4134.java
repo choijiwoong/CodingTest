@@ -25,7 +25,19 @@ class Main {
             그리고 일단 정수가 0~이기에 0~2까지는 고정으로 2를 반환하게 하여 zero division방지 겸 하자.
 
             코딩하다보니 유클리드 호제법은 두 수의 최대공약수를 구하는 공식이다.
-            일반 약수는 좀 변형해야할듯 한데..
+            일반 약수는 좀 변형해야할듯 한데.. 일단 TDD 형식으로 구현부터 해보자. 2~n-1까지 나머지를 체크하는 방식으로 구현은 했다.
+            TLE가 발생했다.
+
+            - 최적화 1차시도
+            long을 unsigned int로 바꿔보자.
+            Integer.parseUnsignedInt는 int에 40억을 담을 수 있지만, Java의 int는 부호가 있는 정수만 지원하기에
+            예상치 못한 버그가 발생할 확률이 굉장히 높다고 한다.
+
+            - 최적화 2차시도
+            어렴풋이 기억하는 i*i<=cand까지만 is_prime에서 연산해보자.
+            원리는 is_prime의 약수들 중 2, n/2를 생각해보자. 2로 나뉘면 이미 소수가 아닌 것.
+            이 때 약수의 최댓값을 무엇일까? sqrt(n) * sqrt(n)이 n이 될 때가 제일 약수가 크다.
+            대칭성을 이용해 sqrt(n)까지만 사용하자.
         */
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
@@ -34,8 +46,12 @@ class Main {
 
         while(n-->0){
             long num = Long.parseLong(br.readLine());
-            long cand;
-            for(cand = num; is_prime(cand); cand++){}
+            long cand = num;
+            while(true){
+                if(is_prime(cand))
+                    break;
+                cand++;
+            }
             bw.write(String.valueOf(cand));
             bw.newLine();
         }
@@ -46,6 +62,15 @@ class Main {
     }
 
     public static boolean is_prime(long cand){
+        if(cand<2)
+            return false;
+        if(cand==2 || cand==3)
+            return true;
 
+        for(long i=2; i*i<=cand; i++){
+            if(cand%i==0)
+                return false;
+        }
+        return true;
     }
 }
