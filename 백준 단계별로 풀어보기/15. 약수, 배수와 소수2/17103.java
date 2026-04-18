@@ -26,6 +26,8 @@ class Main {
             디버깅1. +2하니까 같은 경우를 지나치기도 함. 우선 +1하며 TDD하자.
             순서 달라도 같은 파티션이래. 문제 잘 읽자.
 
+            시도2. 우선 TLE가 발생하였다. 짝수인 경우 건너뛰는 로직을 이용해 최적화해보자.
+
         */
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
@@ -49,8 +51,13 @@ class Main {
         while(a<=b){
             if(is_prime(a) && is_prime(b))
                 count++;
-            a++;
-            b--;
+            if(a%2==0){
+                a++;
+                b--;
+            } else{
+                a+=2;
+                b-=2;
+            }
         }
         return count;
     }
