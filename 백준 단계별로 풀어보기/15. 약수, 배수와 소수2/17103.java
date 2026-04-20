@@ -3,6 +3,8 @@ import java.lang.*;
 import java.io.*;
 
 class Main {
+    public static boolean[] is_prime = new boolean[1000001];
+
     public static void main(String[] args) throws IOException{
         /*
             귀찮으니 빠르게 두문제 컷하고 다음 단계로 넘어가자.
@@ -28,12 +30,16 @@ class Main {
 
             시도2. 우선 TLE가 발생하였다. 짝수인 경우 건너뛰는 로직을 이용해 최적화해보자.
 
+            시도3. Gemini
+            입력값이 1,000,000으로 고정되어있다고 미리 초기에 소수 배열을 저장해두라고 한다.
+
         */
+        init_primeset();
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
         int n = Integer.parseInt(br.readLine());
-        while(n--!=0){
+        while(n-->0){
             int num = Integer.parseInt(br.readLine());
             int count_partition = calc_partition(num);
             bw.write(String.valueOf(count_partition));
@@ -49,31 +55,26 @@ class Main {
         int a=2, b=num-2;
         int count=0;
         while(a<=b){
-            if(is_prime(a) && is_prime(b))
+            if(is_prime[a] && is_prime[b])
                 count++;
-            if(a%2==0){
-                a++;
-                b--;
-            } else{
-                a+=2;
-                b-=2;
-            }
+            a++;
+            b--;
         }
         return count;
     }
 
-    public static boolean is_prime(int num){
-        if(num<2)
-            return false;
-        if(num==2 || num==3)
-            return true;
-        boolean result=true;
-        for(int i=2; i*i<=num; i++){
-            if(num%i==0){
-                result=false;
-                break;
+    public static void init_primeset(){
+        Arrays.fill(is_prime, true);
+        is_prime[0]=false;
+        is_prime[1]=false;
+
+        for(int i=4; i<=1000000; i++){
+            for(int j=2; j*j<=i; j++){
+                if(i%j==0){
+                    is_prime[i]=false;
+                    break;
+                }
             }
         }
-        return result;
     }
 }
