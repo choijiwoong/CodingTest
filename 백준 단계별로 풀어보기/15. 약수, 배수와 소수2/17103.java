@@ -65,16 +65,12 @@ class Main {
 
     public static void init_primeset(){
         Arrays.fill(is_prime, true);
-        is_prime[0]=false;
-        is_prime[1]=false;
+        is_prime[0] = is_prime[1] = false;
 
-        for(int i=4; i<=1000000; i++){
-            for(int j=2; j*j<=i; j++){
-                if(i%j==0){
-                    is_prime[i]=false;
-                    break;
-                }
-            }
-        }
+        //2부터 시작하여 약수로 가질 수 있는 최대의 크기까지 모든 소수들의 배수를 false로 지정
+        for(int i=2; i*i<=1000000; i++)
+            if(is_prime[i])//만약 소수로 지정되어있다면
+                for(int j=i*i; j<=1000000; j+=i)//i*i에서 시작하는 이유는 i*(i-n)일 경우 이미 (i-n)의 배수단에서 처리가 완료됨.
+                    is_prime[j]=false;//i의 배수를 찾기 위해 직접 더해서 9 12 15등 수행. 곱하면 9 27 81이 되니 3배수를 다 못찾음.
     }
 }
