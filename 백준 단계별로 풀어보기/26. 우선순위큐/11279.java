@@ -31,6 +31,8 @@ class Main {
 
             정리: 가급적 offer, poll, peek을 사용하여 null처리로 통일하자.
             Queue는 push가 없고, Deque에만 있다.
+
+            기본 PriorityQueue는 최소힙이므로 최대힙사용 시 Collections.reverseOrder()넣어줘야한다.
         */
         BufferedReader br =  new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
