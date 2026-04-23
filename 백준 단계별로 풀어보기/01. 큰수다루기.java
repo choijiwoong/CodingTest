@@ -1,7 +1,7 @@
 import java.util.*;
 import java.lang.*;
 import java.io.*;
-import java.math.BigInteger;
+import java.math.*;
 
 class Main {
     public static void main(String[] args) throws IOException{
@@ -25,6 +25,10 @@ class Main {
         if(bigNum1.compareTo(bigNum2)<0)
             System.out.printf("%s가 %s보다 큼\n", bigNum1.toString(), bigNum2.toString());
 
-        System.out.printf("%,d, %5.3f", 100000000, 28.2939);
+        System.out.printf("%,d, %5.3f\n", 100000000, 28.2939);
+
+        BigDecimal bigDec = new BigDecimal("123456789.1234567890");
+        System.out.printf("실수 큰수: %.7f\n", bigDec);
+
     }
 }
