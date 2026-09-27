@@ -32,7 +32,23 @@ class Solution {
         if(gcd>20)
             return -1;
 
+        // 4. 메인 로직
+        for(int t=1; t<=20; t++){
+            // 현재 노란불인가요?
+            int result = 1;
+            for(int depth=0; depth<length; depth++){
+                int[] tmp = signals[depth];
+                int idx = t%sum[depth];
+                if( !(signals[depth][0]<idx && idx<=signals[depth][0]+signals[depth][1]) ){
+                    result=0;
+                    break;
+                }
+            }
 
+            // 아니면 리턴
+            if(result == 1)
+                return answer=t;
+        }
 
         return answer;
     }
