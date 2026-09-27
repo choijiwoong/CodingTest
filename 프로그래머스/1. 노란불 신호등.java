@@ -33,7 +33,7 @@ class Solution {
             return -1;
 
         // 4. 메인 로직
-        for(int t=1; t<=20; t++){
+        for(int t=1; t<=6460; t++){
             // 현재 노란불인가요?
             int result = 1;
             for(int depth=0; depth<length; depth++){
@@ -49,6 +49,10 @@ class Solution {
             if(result == 1)
                 return answer=t;
         }
+
+        // 5. 디버깅1: 현재 max t를 구하지 못하고 있음. 최악의 상황으로 노란 주기가 20, 19, 17이라고 생각해보자. 이들의 최소공배수는? 6,460. 결과 정확도 60%임.
+        // 6. 디버깅2: 방향성은 맞아보이는데.. 최악의 주기가 몇이 가능할까?
+
 
         return answer;
     }
