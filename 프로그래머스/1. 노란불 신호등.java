@@ -1,25 +1,40 @@
 class Solution {
-    public int solution(int[][] signals) {
-        int answer = -1;
-
-        int len = signals.length;
-        int[] cur = new int[len];
-        for(int i=0; i<len; i++)
-            cur[i]=1;
-
-        return answer;
+    public int calc_gcd(int a, int b){
+        while(b>0){
+            int tmp = a;
+            a=b;
+            b=tmp%b;
+        }
+        return a;
     }
 
-    public boolean is_same(int[] input){
-        boolean result = true;
-        int n = input[0];
-        for(int i=1; i<input.length; i++){
-            if(n!=input[i]){
-                result = false;
-                break;
-            }
+
+    public int solution(int[][] signals) {
+        int answer = -1;
+        int length = signals.length;
+        int KIND_COLOR = 3;
+
+        // 그래. 처음부터 뭔가 하기보다 예외처리부터 한 뒤 진행하자.
+        // 1. 각 색 변환 주기 계산
+        int[] sum = new int[length];
+        for(int i=0; i<length; i++){
+            sum[i]=0;
+            for(int j=0; j<KIND_COLOR; j++)
+                sum[i] += signals[i][j];
         }
-        return result;
+
+        // 2. 입력 패턴의 최소공배수 계산
+        int gcd = sum[0];
+        for(int i=0; i<length-1; i++)
+            gcd = calc_gcd(gcd, sum[i+1]);
+
+        // 3. 만약 최소 공배수가 20 초과면 -1 반환
+        if(gcd>20)
+            return -1;
+
+
+
+        return answer;
     }
 }
 
