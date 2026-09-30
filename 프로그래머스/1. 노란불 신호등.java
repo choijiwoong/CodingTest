@@ -1,4 +1,5 @@
 class Solution {
+    // 최대공약수 찾기
     public int calc_gcd(int a, int b){
         while(b>0){
             int tmp = a;
@@ -6,6 +7,12 @@ class Solution {
             b=tmp%b;
         }
         return a;
+    }
+
+    // 최소공배수 찾기
+    public int calc_lcm(int a, int b){
+        int gcd=calc_gcd(a, b);
+        return a*b/gcd;// 구글 공식 참고
     }
 
 
@@ -26,7 +33,7 @@ class Solution {
         // 2. 입력 패턴의 최소공배수 계산
         int gcd = sum[0];
         for(int i=0; i<length-1; i++)
-            gcd = calc_gcd(gcd, sum[i+1]);
+            gcd = calc_lcm(gcd, sum[i+1]);
 
         // 3. 만약 최소 공배수가 20 초과면 -1 반환
         if(gcd>20)
@@ -54,6 +61,7 @@ class Solution {
         // 6. 디버깅2: 방향성은 맞아보이는데.. 최악의 주기가 몇이 가능할까?
         // 노트북 킬 힘은 없고.. 머리로 검토라도 해보자. 명확한 t의 최대를 찾을 필요 없어보이는데. 대충 20*20*20이 가장 큰 값일테고 명확하진 않아도 그렇게 수행하면 더찾아보면 더 봤지 덜보진 않을듯. 그렇게 실행해보면 좋고, 어제 끄기전에 그걸 빼고도 또 문제가 있던거로 기억함. 검토나 해보자. 검토 시 결고ㅓ보이면 그건 내일 커밋하자. 고생했다.
         // 20^3으로 8000해보니 여전히 60%정확. 다른측면 접근 필요.
+        // 0930 오늘도 눕눕해서 쓰는 중.. 주석정리라도 해야겠다. 촤소공배수 자리에 최대공약수 넣은거 추가함. 테스트 필요.
 
 
         return answer;
